@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<link rel="stylesheet" href="css/provinzial.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-markdown>
+					<script type="text/template" >
+						## Writing Interpreters
+						## in Kotlin
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Speaker info:
+						@funkschy
+						@iamnepster
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						##### pre-processor
+						### lexical analysis
+						### parsing
+						###### name resolution
+						###### type checking
+						###### IR generation
+						###### Optimization
+						###### code generation
+						###### linking
+						###### loading
+						### execution
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Token
+
+						```kotlin
+							enum class TokenType {
+								NUMBER,
+								IDENTIFIER,
+								... ,
+								ERROR,
+								EOF
+							}
+
+							data class Token (val type: TokenType, val lexeme: String)
+						```
+					</script>
+				</section>
+
+				<section>
+					<section data-markdown>
+						## Lexer
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```kotlin
+							private fun scanToken(): Token? {
+								takeWhile(Char::isWhitespace)
+								val current = current()
+
+								return when {
+									atEnd() -> null
+									current.isLetter() -> lexIdentifier()
+									current.isDigit() -> lexNumber()
+									current == '+' -> advanceToken(PLUS)
+									else -> {
+										advance()
+										Token(ERROR, "Invalid char: '$current'")
+									}
+								}
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```kotlin
+							private fun lexIdentifier() = Token(IDENTIFIER,
+										takeWhile { c -> c.isLetterOrDigit() || c == '_' })
+
+							private fun takeWhile(predicate: (Char) -> Boolean): String {
+								val start = position
+
+								while (!atEnd() && predicate(current())) {
+									advance()
+								}
+
+								return source.substring(start, position)
+							}
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```kotlin
+							sealed class Expr {
+								abstract fun accept(interpreter: Interpreter) : Double
+
+								data class Identifier(val name: String) : Expr() {
+									override fun accept(interpreter: Interpreter)
+												 = interpreter.evalIdentifier(this)
+								}
+
+								...
+							}
+							```
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						## Parser
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							## Grammar
+							```
+								expression  = declaration
+
+								declaration = ( IDENTIFIER "=" )? term
+
+								term        = factor( ( "+" | "-" ) factor )*
+
+								factor      = unary ( ( "*" | "/" ) unary )*
+
+								unary       = ( "-" )? primary
+
+								primary     = "(" expr ")" | NUMBER | IDENTIFIER
+
+								NUMBER      = DIGIT+ "." DIGIT+
+
+								IDENTIFIER  = LETTER ( LETTER | DIGIT | "_" )*
+
+								DIGIT       = [0-9]
+
+								LETTER 		= [a-zA-Z]
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						## (A)bstract (S)yntax (T)ree
+					</section>
+				</section>
+
+				<section data-markdown>
+					## Interpreter
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Coding
+					</script>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+
+		<script type="text/javascript">
+            window.addEventListener("load", function() {
+
+                const relevantElements = document.querySelectorAll("body .reveal .slide-background:not(.stack)")
+                const footer = document.getElementById("facette");
+
+                relevantElements.forEach(function(el){
+                    el.appendChild(footer.cloneNode(true));
+                })
+
+                //revealDiv.appendChild(footer);
+
+            } );
+		</script>
+
+		<facette class="facette" id="facette">
+			<div class="facette-part facette-back"></div>
+			<div class="facette-part facette-center"></div>
+			<div class="facette-part facette-front"></div>
+		</facette>
+	</body>
+</html>
