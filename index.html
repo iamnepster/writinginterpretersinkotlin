@@ -33,46 +33,76 @@
 					</script>
 				</section>
 
+				<section>
+					<table>
+						<tr>
+							<td>
+								<img src="./img/markheckler.jpg" style="width: 200px; height: 300px;"/> <br/>
+								Felix Schoeller <br/>
+								twitter: funkschy <br/>
+								github: funkschy <br/>
+							</td>
+							<td style="color: white;">
+								SPACE
+							</td>
+							<td style="margin-left: 200px">
+								<img src="./img/markheckler.jpg" style="width: 200px; height: 300px;"/> <br/>
+								Jan Voelker <br/>
+								twitter: iamnepster <br/>
+								github: iamnepster <br/>
+							</td>
+						</tr>
+					</table>
+				</section>
+
 				<section data-markdown>
-					<script type="text/template">
-						## Speaker info:
-						@funkschy
-						@iamnepster
-					</script>
+					## Differences between a Compiler and an Interpreter
 				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-						##### pre-processor
-						### lexical analysis
-						### parsing
-						###### name resolution
-						###### type checking
-						###### IR generation
-						###### Optimization
-						###### code generation
-						###### linking
-						###### loading
-						### execution
+						Pre-processor<br/>
+						**Lexical analysis**<br/>
+						**Parsing**<br/>
+						Name resolution<br/>
+						Type checking<br/>
+						IR generation<br/>
+						Optimization<br/>
+						Code generation<br/>
+						Linking<br/>
+						Loading<br/>
+						**Execution**<br/>
 					</script>
 				</section>
 
 				<section data-markdown>
-					<script type="text/template">
+					## The Basics
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
 						## Token
+
 
 						```kotlin
 							enum class TokenType {
 								NUMBER,
 								IDENTIFIER,
-								... ,
+								{ ... },
 								ERROR,
 								EOF
 							}
 
 							data class Token (val type: TokenType, val lexeme: String)
 						```
-					</script>
+						</script>
+					</section>
+					<section data-markdown>
+						```kotlin
+						val text = "We love Kotlin!"
+						```
+					</section>
 				</section>
 
 				<section>
@@ -92,6 +122,7 @@
 									current.isLetter() -> lexIdentifier()
 									current.isDigit() -> lexNumber()
 									current == '+' -> advanceToken(PLUS)
+									{ ... }
 									else -> {
 										advance()
 										Token(ERROR, "Invalid char: '$current'")
@@ -132,7 +163,7 @@
 												 = interpreter.evalIdentifier(this)
 								}
 
-								...
+								{ ... }
 							}
 							```
 						</script>
@@ -149,30 +180,22 @@
 							## Grammar
 							```
 								expression  = declaration
-
 								declaration = ( IDENTIFIER "=" )? term
-
 								term        = factor( ( "+" | "-" ) factor )*
-
 								factor      = unary ( ( "*" | "/" ) unary )*
-
 								unary       = ( "-" )? primary
-
 								primary     = "(" expr ")" | NUMBER | IDENTIFIER
-
-								NUMBER      = DIGIT+ "." DIGIT+
-
+								NUMBER      = DIGIT+ ( "." DIGIT+ )?
 								IDENTIFIER  = LETTER ( LETTER | DIGIT | "_" )*
-
 								DIGIT       = [0-9]
-
-								LETTER 		= [a-zA-Z]
+								LETTER      = [a-zA-Z]
 							```
 						</script>
 					</section>
 
 					<section data-markdown>
-						## (A)bstract (S)yntax (T)ree
+						## **A**bstract **S**yntax **T**ree
+						![bild](./img/ast.png)
 					</section>
 				</section>
 
