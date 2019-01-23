@@ -82,6 +82,19 @@
 				</section>
 
 				<section>
+
+					<section data-markdown>
+						## Lexer
+						> The Lexer breaks the source code into the smalest
+						> pieces that still represent meaning
+					</section>
+					<section data-markdown>
+						![bild](./img/token.jpg)
+						```kotlin
+						val text = "We love Kotlin!"
+						```
+					</section>
+
 					<section data-markdown>
 						<script type="text/template">
 						## Token
@@ -99,17 +112,6 @@
 							data class Token (val type: TokenType, val lexeme: String)
 						```
 						</script>
-					</section>
-					<section data-markdown>
-						```kotlin
-						val text = "We love Kotlin!"
-						```
-					</section>
-				</section>
-
-				<section>
-					<section data-markdown>
-						## Lexer
 					</section>
 
 					<section data-markdown>
