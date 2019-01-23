@@ -183,25 +183,8 @@
 					</section>
 
 					<section data-markdown>
-						## **A**bstract **S**yntax **T**ree
+						## Abstract Syntax Tree
 						![bild](./img/ast.png)
-					</section>
-
-					<section data-markdown>
-						<script type="text/template">
-							```kotlin
-							sealed class Expr {
-							abstract fun accept(interpreter: Interpreter) : Double
-
-							data class Identifier(val name: String) : Expr() {
-							override fun accept(interpreter: Interpreter)
-							= interpreter.evalIdentifier(this)
-							}
-
-							{ ... }
-							}
-							```
-						</script>
 					</section>
 				</section>
 
