@@ -144,7 +144,7 @@
 							```kotlin
 							private fun lexIdentifier() = Token(IDENTIFIER,
 										takeWhile { c -> c.isLetterOrDigit() || c == '_' })
-
+					
 							private fun takeWhile(predicate: (Char) -> Boolean): String {
 								val start = position
 

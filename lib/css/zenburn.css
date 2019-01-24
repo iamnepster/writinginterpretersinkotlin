@@ -16,7 +16,7 @@ based on dark.css by Ivan Sagalaev
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-tag {
-  color: #e3ceab;
+  color: #69A82F;
 }
 
 .hljs-template-tag {
@@ -24,17 +24,17 @@ based on dark.css by Ivan Sagalaev
 }
 
 .hljs-number {
-  color: #8cd0d3;
+  color: #FFDD00;
 }
 
 .hljs-variable,
 .hljs-template-variable,
 .hljs-attribute {
-  color: #efdcbc;
+  color: #69A82F;
 }
 
 .hljs-literal {
-  color: #efefaf;
+  color: #69A82F;
 }
 
 .hljs-subst {
@@ -47,7 +47,7 @@ based on dark.css by Ivan Sagalaev
 .hljs-selector-class,
 .hljs-section,
 .hljs-type {
-  color: #efef8f;
+  color: #1D724A;
 }
 
 .hljs-symbol,
@@ -60,7 +60,7 @@ based on dark.css by Ivan Sagalaev
 .hljs-string,
 .hljs-built_in,
 .hljs-builtin-name {
-  color: #cc9393;
+  color: #FFDD00;
 }
 
 .hljs-addition,
